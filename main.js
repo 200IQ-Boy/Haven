@@ -1,44 +1,53 @@
 // main.js
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 import { spawn } from 'child_process';
+import fs from 'fs';
+
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-let win;
+const __dirname = path.dirname(__filename);
+let mainWindow;
+let proxyProcess = null;
 
-function createWindow() {
-  win = new BrowserWindow({
-    width: 800,
-    height: 600,
+const createWindow = () => {
+  const preloadPath = path.join(__dirname, 'preload.js');
+  console.log('✅ preload path:', preloadPath);
+  console.log('✅ preload exists:', fs.existsSync(preloadPath));
+  mainWindow = new BrowserWindow({
+    width: 1000,
+    height: 800,
     webPreferences: {
-      preload: path.join(__dirname, "preload.js"), // pour communication
+      preload: preloadPath,
+      nodeIntegration: false,
+      contextIsolation: false,
     },
   });
+  // DEV
+  mainWindow.loadURL('http://localhost:5173');
+  mainWindow.webContents.openDevTools();
+  // PROD
+  // mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
+};
 
-  win.loadURL("http://localhost:3000"); // Application React
-}
+app.whenReady().then(createWindow);
 
-// Lancer le proxy Node au démarrage
-function startProxy() {
-  spawn("node", [path.join(__dirname, "proxy/proxy.js")], {
-    detached: true,
-    stdio: "ignore",
-  }).unref();
-}
-
-app.whenReady().then(() => {
-  createWindow();
-  startProxy();
-
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) createWindow();
-  });
+ipcMain.on('enable-proxy', () => {
+  if (!proxyProcess) {
+    proxyProcess = spawn('node', [path.join(__dirname, 'proxy.js')], {
+      stdio: 'inherit',
+    });
+    console.log("Proxy lancé");
+  }
 });
 
-app.on("window-all-closed", () => {
-  if (process.platform !== "darwin") app.quit();
+ipcMain.on('disable-proxy', () => {
+  if (proxyProcess) {
+    proxyProcess.kill();
+    proxyProcess = null;
+    console.log("Proxy arrêté");
+  }
 });
+
 

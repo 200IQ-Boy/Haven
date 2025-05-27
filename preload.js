@@ -1,9 +1,6 @@
-// preload.js
-import { contextBridge, ipcRenderer } from 'electron';
-console.log("Preload script loaded");
+const {  ipcRenderer } = require('electron');
 
-// Expose a safe API to the renderer process 
-contextBridge.exposeInMainWorld('electronAPI', {
+window.electronAPI = {
   enableProxy: () => ipcRenderer.send('enable-proxy'),
-  disableProxy: () => ipcRenderer.send('disable-proxy')
-});
+  disableProxy: () => ipcRenderer.send('disable-proxy'),
+};
