@@ -16,8 +16,8 @@ const createWindow = () => {
   console.log('✅ preload path:', preloadPath);
   console.log('✅ preload exists:', fs.existsSync(preloadPath));
   mainWindow = new BrowserWindow({
-    width: 1000,
-    height: 800,
+    width: 1200,
+    height: 880,
     webPreferences: {
       preload: preloadPath,
       nodeIntegration: false,
