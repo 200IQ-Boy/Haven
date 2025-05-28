@@ -19,6 +19,8 @@
   },
   "type": "module",
   "devDependencies": {
-    "electron": "^36.3.1"
+    "concurrently": "^9.1.2",
+    "electron": "^36.3.1",
+    "wait-on": "^8.0.3"
   }
 }

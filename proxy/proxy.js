@@ -81,7 +81,6 @@ proxy.onConnect((req, socket, head) => {
   });
 });
 
-// Since node 0.9.9, ECONNRESET on sockets are no longer hidden
 function filterSocketConnReset(err, socketDescription) {
   if (err.errno === "ECONNRESET") {
     console.log(`Got ECONNRESET on ${socketDescription}, ignoring.`);

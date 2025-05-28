@@ -25,7 +25,7 @@ const createWindow = () => {
     },
   });
   // DEV
-  mainWindow.loadURL('http://localhost:5173');
+  mainWindow.loadURL('http://localhost:3000');
   mainWindow.webContents.openDevTools();
   // PROD
   // mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
@@ -35,7 +35,7 @@ app.whenReady().then(createWindow);
 
 ipcMain.on('enable-proxy', () => {
   if (!proxyProcess) {
-    proxyProcess = spawn('node', [path.join(__dirname, 'proxy.js')], {
+    proxyProcess = spawn('node', [path.join(__dirname, 'proxy/proxy.js')], {
       stdio: 'inherit',
     });
     console.log("Proxy lancé");
