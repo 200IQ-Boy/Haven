@@ -3,12 +3,14 @@
 import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import { Apple, Mail, Sparkles, Star, Heart, Shield, ArrowRight, Sunrise, Moon, Compass, Zap } from "lucide-react"
+import { Chrome, Mail, Sparkles, Star, Heart, Shield, ArrowRight, Sunrise, Moon, Compass, Zap } from "lucide-react"
+import { useRouter } from 'next/navigation'
 
 export function LandingPage() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [currentSlide, setCurrentSlide] = useState(0)
-
+  const router = useRouter()
+  
   const slides = [
     {
       title: "Build freedom,",
@@ -92,6 +94,10 @@ export function LandingPage() {
       }),
     [],
   )
+
+   const handleLoginClick = () => {
+    router.push('/login')
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#a89cc8] via-[#b8a8d8] to-[#c4b5e0] relative overflow-hidden">
@@ -264,8 +270,8 @@ export function LandingPage() {
             }`}
           >
             <Button onClick={() => console.log("Apple")} className="w-full h-14 bg-white/20 backdrop-blur-sm border border-[#2c2f5a]/20 text-[#2c2f5a] hover:bg-white/30 hover:border-[#2c2f5a]/30 rounded-2xl transition-all duration-300 transform hover:scale-105 group">
-              <Apple className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform duration-200" />
-              <span className="text-lg font-light">Continue with Apple</span>
+              <Chrome className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform duration-200" />
+              <span className="text-lg font-light">Start with Google Account</span>
             </Button>
 
             <Button onClick={() => console.log("Email")} className="w-full h-14 bg-gradient-to-r from-[#a0c4b4] to-[#a89cc8] hover:from-[#90b4a4] hover:to-[#988cb8] text-white rounded-2xl shadow-xl transition-all duration-300 transform hover:scale-105 group">

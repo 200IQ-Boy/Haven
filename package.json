@@ -21,6 +21,7 @@
   "devDependencies": {
     "concurrently": "^9.1.2",
     "electron": "^36.3.1",
+    "framer-motion": "^12.15.0",
     "wait-on": "^8.0.3"
   }
 }

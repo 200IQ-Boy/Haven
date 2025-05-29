@@ -2,14 +2,14 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Eye, EyeOff, Mail, Lock, Sparkles, Star, Heart, ArrowRight, Shield } from "lucide-react"
 
-export function LoginPage() {
+export default function LoginPage() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState("")
@@ -22,13 +22,21 @@ export function LoginPage() {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
+  const stars = useMemo(
+      () =>
+        [...Array(60)].map((_, i) => {
+          return {
+            key: i,
+            cx: 50 + i * 19 + Math.random() * 100, // densité doublée
+            cy: 50 + Math.random() * 700,
+            r: 1 + Math.random() * 2.5,
+            fill: i % 3 === 0 ? "#ffe6a7" : i % 3 === 1 ? "#f1dce8" : "#a0c4b4",
+            delay: Math.random() * 5,
+            duration: 2 + Math.random() * 3,
+          }
+        }),
+      [],
+    )
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -70,19 +78,19 @@ export function LoginPage() {
               />
             </g>
 
-            {/* Interactive Stars */}
-            {[...Array(25)].map((_, i) => (
+
+          {stars.map((star) => (
               <circle
-                key={i}
-                cx={100 + i * 45 + Math.random() * 80}
-                cy={80 + Math.random() * 640}
-                r={1.5 + Math.random() * 2}
-                fill="#ffe6a7"
-                opacity="0.7"
+                key={star.key}
+                cx={star.cx}
+                cy={star.cy}
+                r={star.r}
+                fill={star.fill}
+                opacity="0.8"
                 className="animate-twinkle-random"
                 style={{
-                  animationDelay: `${Math.random() * 4}s`,
-                  animationDuration: `${2 + Math.random() * 3}s`,
+                  animationDelay: `${star.delay}s`,
+                  animationDuration: `${star.duration}s`,
                 }}
               />
             ))}

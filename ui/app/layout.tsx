@@ -1,20 +1,19 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import "./globals.css"
+import type { Metadata } from "next"
+import { ReactNode } from "react"
+import PageTransition from "@/components/page-transition"
 
 export const metadata: Metadata = {
-  title: 'Haven',
-  description: 'Created with v0',
-  generator: 'v0.dev',
+  title: "Haven",
+  description: "Application anti-addiction",
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <PageTransition>{children}</PageTransition>
+      </body>
     </html>
   )
 }
