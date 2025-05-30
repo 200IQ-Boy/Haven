@@ -123,6 +123,14 @@
     animation-delay: 4s;
   }
 
+  .animate-slide-left-right {
+    animation: slide-left-right 8s ease-in-out infinite;
+  }
+
+  .animate-slide-left-right-delayed {
+     animation: slide-left-right-delayed 8s ease-in-out infinite;
+  }
+
   .animate-constellation-draw-slow {
     animation: constellation-draw 12s ease-in-out infinite;
     animation-delay: 2s;
@@ -151,6 +159,10 @@
 
   .animate-spin-slow-reverse {
     animation: spin-slow-reverse 25s linear infinite;
+  }
+
+  .animate-walk {
+    animation: walk-cycle 4s linear infinite;
   }
 
   /* Gradient utilities */
@@ -213,6 +225,22 @@
       opacity: 0.25;
     }
   }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes slide-left-right {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(200px); } /* Ajuste selon ton design */
+  }
+
+  @keyframes slide-left-right-delayed {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(50px); } /* Ajuste selon ton design */
+  }
+
 
   @keyframes twinkle {
     0%,
@@ -380,7 +408,14 @@
       opacity: 1;
     }
   }
+
+  @keyframes walk-cycle {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(20px); }
+  }
 }
+
+
 
 /* Custom gradient colors */
 .from-gold-400 {

@@ -26,7 +26,6 @@ const createWindow = () => {
   });
   // DEV
   mainWindow.loadURL('http://localhost:3000');
-  mainWindow.webContents.openDevTools();
   // PROD
   // mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
 };

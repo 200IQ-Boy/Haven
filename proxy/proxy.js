@@ -3,7 +3,9 @@ import net from "net";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import followRedirects from 'follow-redirects';
 
+const { https } = followRedirects;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -16,7 +18,45 @@ proxy.onError((ctx, err, errorKind) => {
   console.error(`${errorKind} on ${url}:`, err);
 });
 
-const blacklist = ["pornhub.com", "xvideos.com", "xnxx.com","opera.com"];
+let blacklist = ["pornhub.com", "xvideos.com", "xnxx.com","opera.com"];
+
+function fetchExternalBlocklist(url) {
+  return new Promise((resolve, reject) => {
+    https.get(url, (res) => {
+      let data = "";
+
+      if (res.statusCode !== 200) {
+        reject(new Error(`Failed to fetch. Status: ${res.statusCode}`));
+        return;
+      }
+
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+
+      res.on("end", () => {
+        const domains = data
+          .split("\n")
+          .map(line => line.trim())
+          .filter(line => line && !line.startsWith("#")); // Remove empty or commented lines
+
+        resolve(domains);
+      });
+    }).on("error", reject);
+  });
+}
+
+async function init() {
+  try {
+    const url = "";
+    const externalDomains = await fetchExternalBlocklist(url);
+    blacklist = [...new Set([...blacklist, ...externalDomains])]; // merge + deduplicate
+
+    console.log(`Blacklist loaded with ${blacklist.length} domains`);
+  } catch (err) {
+    console.error("Failed to load external blocklist:", err);
+  }
+}
 
 function isBlacklisted(host) {
   if (!host) return false;
@@ -96,4 +136,5 @@ proxy.listen({
   forceSNI: true
 })
 
+init();
 

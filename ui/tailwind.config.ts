@@ -239,7 +239,7 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        drift: "drift 35s ease-in-out infinite",
+        "drift": "drift 35s ease-in-out infinite",
         "float-peaceful": "float-peaceful 40s ease-in-out infinite",
         "pulse-gentle": "pulse-gentle 6s ease-in-out infinite",
         twinkle: "twinkle 3s ease-in-out infinite",
@@ -252,6 +252,7 @@ const config: Config = {
         "nebula-drift": "nebula-drift 20s ease-in-out infinite",
         "spin-slow": "spin-slow 20s linear infinite",
         "spin-slow-reverse": "spin-slow-reverse 25s linear infinite",
+        "walk": "walk-cycle 4s steps(4) infinite",
       },
       fontFamily: {
         sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
